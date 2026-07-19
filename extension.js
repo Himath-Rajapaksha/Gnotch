@@ -20,6 +20,7 @@ const R_OUTER = 14;            // convex bridge radius
 const R_INNER = 10;            // concave corner radius
 const EASE_TIME = 420;         // ms
 const EASE_MODE = Clutter.AnimationMode.EASE_OUT_CUBIC;
+const BLEED = 2;               // extra canvas pixels above top edge to kill antialiasing seam
 
 const MPRIS_BUS_NAME_PREFIX = 'org.mpris.MediaPlayer2.';
 const MPRIS_PATH = '/org/mpris/MediaPlayer2';
@@ -73,8 +74,8 @@ class GnotchActor extends St.Widget {
     // -- sizing -------------------------------------------------------------
 
     _resize(width, height) {
-        this.set_size(width, height);
-        this._canvas.set_size(width, height);
+        this.set_size(width, height + BLEED);
+        this._canvas.set_size(width, height + BLEED);
     }
 
     _currentWidth() {
@@ -101,7 +102,7 @@ class GnotchActor extends St.Widget {
         cr.paint();
         cr.restore();
 
-        const Ph = this._panelHeight;
+        const Ph = Main.panel.height;
         const Ro = R_OUTER;
         const Ri = R_INNER;
 
@@ -333,7 +334,7 @@ export default class GnotchExtension extends Extension {
             return;
         this._actor.set_position(
             Math.round(monitor.x + monitor.width / 2 - this._actor.width / 2),
-            monitor.y
+            monitor.y - BLEED
         );
     }
 
