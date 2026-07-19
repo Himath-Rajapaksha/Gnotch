@@ -53,9 +53,9 @@ class GnotchActor extends St.Widget {
         this._progress = 0; // 0 = idle, 1 = fully open
         this._expanded = false;
 
-        this._canvas = new Clutter.Canvas();
-        this._canvas.connect('draw', this._onDraw.bind(this));
-        this.set_content(this._canvas);
+        this._canvas = new St.DrawingArea();
+        this._canvas.connect('repaint', this._onDraw.bind(this));
+        this.add_child(this._canvas);
 
         this._label = new St.Label({
             style_class: 'gnotch-label',
@@ -92,7 +92,10 @@ class GnotchActor extends St.Widget {
     // hanging body via a convex curve, then rounds the bottom corners with a
     // concave curve, entirely with cr.curveTo Bézier segments (no border-radius).
 
-    _onDraw(canvas, cr, width, height) {
+    _onDraw(area) {
+        const cr = area.get_context();
+        const [width, height] = area.get_surface_size();
+
         cr.save();
         cr.setOperator(Cairo.Operator.CLEAR);
         cr.paint();
@@ -116,14 +119,14 @@ class GnotchActor extends St.Widget {
         cr.closePath();
         cr.fill();
 
-        return true;
+        cr.$dispose();
     }
 
     _redraw() {
         const w = Math.round(this._currentWidth());
         const h = Math.round(this._currentHeight());
         this._resize(w, h);
-        this._canvas.invalidate();
+        this._canvas.queue_repaint();
     }
 
     // -- interaction ----------------------------------------------------------
