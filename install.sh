@@ -7,8 +7,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "Installing Gnotch extension..."
 
-mkdir -p "$HOME/.local/share/gnome-shell/extensions"
-cp -r "$SCRIPT_DIR/$UUID" "$EXT_DIR"
+mkdir -p "$EXT_DIR"
+cp "$SCRIPT_DIR/extension.js" "$SCRIPT_DIR/metadata.json" "$SCRIPT_DIR/stylesheet.css" "$EXT_DIR/"
 
 echo "Extension installed to: $EXT_DIR"
 echo "UUID in metadata.json:"
