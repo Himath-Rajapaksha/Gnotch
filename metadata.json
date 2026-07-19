@@ -1,0 +1,9 @@
+{
+  "uuid": "gnotch@anorak999.github.io",
+  "name": "Gnotch",
+  "description": "A fluid, context-aware morphing notch overlay for the GNOME top bar. Shows MPRIS now-playing state and expands into rich widgets on demand.",
+  "shell-version": ["45", "46", "47", "48"],
+  "url": "https://github.com/anorak999/gnotch",
+  "version-name": "1.0.0",
+  "gettext-domain": "gnotch"
+}
